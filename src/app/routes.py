@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, session, redirect, flash
+from flask import Blueprint, render_template, request, session, redirect, flash, abort
 from flask_login import login_user, login_required, logout_user, current_user
 
 from app import login_manager, db
@@ -35,14 +35,18 @@ def login():
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
-        user = User.query.filter_by(email=email).first()
+        try:
+            user = User.query.filter_by(email=email).first()
 
-        if user and user.password == password:
-            login_user(user)
-            return redirect("/events")
+            if user and user.password == password:
+                login_user(user)
+                return redirect("/events")
 
-        flash("Неправильні дані", "error")
-        return redirect("/login")
+            return "Неправильні дані", 401
+
+        except Exception as e:
+            print(e)
+            return "Помилка", 500
 
     return render_template("pages/login.html")
 
@@ -51,10 +55,19 @@ def register():
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
+        password_confirm = request.form["password_confirm"]
 
-        new_user = User(email=email, password=password)  # Hash password before saving in production
-        db.session.add(new_user)
-        db.session.commit()
+        if password != password_confirm:
+            return "Паролі мають співпадати", 401
+
+        try:
+            new_user = User(email=email, password=password)  # Hash password before saving in production
+            db.session.add(new_user)
+            db.session.commit()
+
+        except Exception as e:
+            print(e)
+            return "Помилка", 500
 
         return redirect("/login")
 
