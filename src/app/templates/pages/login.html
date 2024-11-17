@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% from '_forms.html' import field %}
+
+{% block content %}
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Увійти в акаунт</h2>
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <form class="space-y-6" hx-post="/login">
+	  {{ field("email", "email", "email", "email", "Електронна пошта") }}
+	  {{ field("password", "password", "password", "current-password", "Пароль") }}
+      <div>
+        <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Увійти</button>
+      </div>
+    </form>
+	<div class="text-sm">
+		<a
+		hx-get="{{ url_for('main.register') }}" 
+		hx-target="body" 
+		hx-push-url="true"
+		href="{{ url_for('main.register') }}"
+		class="font-semibold text-indigo-600 hover:text-indigo-500">
+			Немає акаунту? Створити
+		</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
