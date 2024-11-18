@@ -8,7 +8,7 @@ login_manager = LoginManager()
 
 def create_app(test_config=None):
     from app.routes import main
-    # create and configure the app
+
     app = Flask(__name__, instance_relative_config=True)
     app.register_blueprint(main)
 
@@ -28,10 +28,12 @@ def create_app(test_config=None):
     db.init_app(app)
     login_manager.init_app(app)
 
-    # ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    with app.app_context():
+        db.create_all()
 
     return app
