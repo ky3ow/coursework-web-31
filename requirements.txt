@@ -1,0 +1,13 @@
+blinker==1.9.0
+click==8.1.7
+Flask==3.1.0
+Flask-Login==0.6.3
+Flask-SQLAlchemy==3.1.1
+greenlet==3.1.1
+itsdangerous==2.2.0
+Jinja2==3.1.4
+MarkupSafe==3.0.2
+SQLAlchemy==2.0.36
+typing_extensions==4.12.2
+-e git+ssh://git@github.com/ky3ow/coursework-web-31.git@106a8abcd2e6cba09c1e7c9810e33d8349fd7b43#egg=volun_tear
+Werkzeug==3.1.3
