@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request, session, redirect, flash, abort
+from flask import Blueprint, render_template, request, session, redirect, abort
 from flask_login import login_user, login_required, logout_user, current_user
 
 from app import login_manager, db
 from app.models import User
+from app.forms import login_form, register_form
 
 main = Blueprint("main", __name__)
 
@@ -48,7 +49,7 @@ def login():
             print(e)
             return "Помилка", 500
 
-    return render_template("pages/login.html")
+    return render_template("pages/login.html", fields=login_form)
 
 @main.route("/register", methods=["GET", "POST"])
 def register():
@@ -71,5 +72,5 @@ def register():
 
         return redirect("/login")
 
-    return render_template("pages/register.html")
+    return render_template("pages/register.html", fields=register_form)
 

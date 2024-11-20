@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -33,6 +34,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    migrate = Migrate(app, db)
     with app.app_context():
         db.create_all()
 

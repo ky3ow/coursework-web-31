@@ -1,14 +1,15 @@
 {% extends 'layout.html' %}
-{% from '_forms.html' import field %}
+{% from '_forms.html' import select, field %}
 
 {% block content %}
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
   <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Створити акаунт</h2>
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
     <form class="space-y-6" hx-post="/register" hx-target="body" hx-target-error="#input-error">
-	  {{ field("email", "email", "email", "email", "Електронна пошта") }}
-	  {{ field("password", "password", "password", "current-password", "Пароль") }}
-	  {{ field("password_confirm", "password_confirm", "password", "", "Повторіть пароль") }}
+	  {{ field(fields["email"]) }}
+	  {{ field(fields["password"]) }}
+	  {{ field(fields["password_confirm"]) }}
+	  {{ select(fields["user_role"]) }}
 	  <div>
 		<button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Зареєструватись</button>
 	  </div>
