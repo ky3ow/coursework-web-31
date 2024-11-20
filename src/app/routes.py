@@ -27,10 +27,6 @@ def logout():
     logout_user()
     return redirect("/")
 
-@main.route("/profile", methods=["GET"])
-def profile():
-    return render_template("pages/profile.html")
-
 @main.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
