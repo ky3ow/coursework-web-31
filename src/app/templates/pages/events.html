@@ -16,8 +16,10 @@
 					 hx-target="#events-grid"
 					 hx-swap="innerHTML"
 				     hx-vals='js:{checked: event.target.checked}'>
-			  <div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-indigo-500 peer-focus:ring-2 peer-focus:ring-indigo-300 transition duration-300"></div>
-			  <div class="w-5 h-5 bg-white rounded-full absolute left-0.5 top-0.5 peer-checked:translate-x-5 transition-transform duration-300"></div>
+			  <div class="peer flex h-8 items-center gap-4 rounded-full bg-indigo-600 px-4 after:absolute after:left-2 after: after:h-6 after:w-[4.5rem] after:rounded-full after:bg-white/40 after:transition-all after:content-[''] peer-checked:bg-green-600 peer-checked:after:translate-x-[4.5rem] peer-focus:outline-none text-sm text-white select-none">
+				 <span>Всі події</span>
+				 <span>Ваші події</span>
+			  </div>
 			</label>
 	    </div>
 	{% endif %}
