@@ -23,8 +23,9 @@ def home():
 @login_required
 def events():
     events = Event.query.all()
+    registrations = {event.id: [reg.user_id for reg in event.registrations] for event in events}
 
-    return render_template("pages/events.html", events=events)
+    return render_template("pages/events.html", events=events, registrations=registrations)
 
 @main.route("/logout", methods=["GET"])
 def logout():
@@ -132,7 +133,9 @@ def toggle_event_visibility():
     else: 
         events = Event.query.join(Registration).filter(Registration.user_id == current_user.id).all()
 
-    return render_template("_event_grid.html", events=events)
+    registrations = {event.id: [reg.user_id for reg in event.registrations] for event in events}
+
+    return render_template("_event_grid.html", events=events, registrations=registrations)
 
 @main.route("/events/<int:event_id>/register", methods=["GET", "POST"])
 @login_required
