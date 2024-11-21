@@ -121,3 +121,28 @@ def delete_event(event_id):
     events = Event.query.all()
 
     return render_template("_event_grid.html", events=events)
+
+
+@main.route("/events/toggle-personal", methods=["GET"])
+@login_required
+def toggle_event_visibility():
+    is_checked = request.args.get("checked", default=False, type=lambda val: val.lower() == 'true')
+
+    if not is_checked:
+        events = Event.query.all()
+    else: 
+        events = []
+
+    return render_template("_event_grid.html", events=events)
+
+@main.route("/events/<int:event_id>", methods=["GET"])
+@login_required
+def register_to_event(event_id):
+    is_checked = request.args.get("checked", default=False, type=lambda val: val.lower() == 'true')
+
+    if not is_checked:
+        events = Event.query.all()
+    else: 
+        events = []
+
+    return render_template("_event_grid.html", events=events)

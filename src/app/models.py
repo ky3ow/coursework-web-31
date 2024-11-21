@@ -25,6 +25,10 @@ class Event(db.Model):
 
 class Registration(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    surname = db.Column(db.String(50), nullable=False)
+    location = db.Column(db.String(100), nullable=False)
+    phone = db.Column(db.String(15), nullable=False)
     
     # Foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -34,8 +38,5 @@ class Registration(db.Model):
     user = db.relationship('User', back_populates='event_registrations')
     event = db.relationship('Event', back_populates='registrations')
     
-    # Additional registration details
-    status = db.Column(db.String(20), default='pending')  # e.g., pending, confirmed, cancelled
-
     # Unique constraint to prevent duplicate registrations
     __table_args__ = (db.UniqueConstraint('user_id', 'event_id', name='_user_event_uc'),)

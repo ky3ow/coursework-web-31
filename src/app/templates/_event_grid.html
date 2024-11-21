@@ -11,18 +11,22 @@
 			<button hx-get="/events/{{ event.id }}" hx-push-url="true" class="flex justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Реєстрація</button>
 			{% endif %}
 		</div>
-		<p class="text-gray-700 text-base">
-			{{ event.description }}
-		</p>
-		<p class="text-gray-700 text-base">
-			Дата: {{ event.date.date() }}
-		</p>
-		<p class="text-gray-700 text-base">
-			Локція: {{ event.location }}
-		</p>
-		<p class="text-gray-700 text-base">
-			Від: {{ event.creator.email }}
-		</p>
+		<div class="flex">
+			<div class="flex-grow">
+				<p class="text-gray-700 text-base">
+					{{ event.description }}
+				</p>
+				<p class="text-gray-700 text-base">
+					Дата: {{ event.date.date() }}
+				</p>
+				<p class="text-gray-700 text-base">
+					Локція: {{ event.location }}
+				</p>
+				<p class="text-gray-700 text-base">
+					Від: {{ event.creator.email }}
+				</p>
+			</div>
+		</div>
 	</div>
 </div>
 {% endif %}
