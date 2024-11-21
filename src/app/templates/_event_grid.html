@@ -3,7 +3,7 @@
 {% else %}
 <div class="max-w-sm rounded overflow-hidden shadow-lg cursor-pointer" {% if current_user.role == 'organization' %} hx-get="/events/{{ event.id }}/manage" hx-target="body" hx-push-url="true" {% endif %}>
 	<div class="px-6 py-4">
-		<div class="font-bold text-xl mb-2 flex">
+		<div class="font-bold text-xl mb-2 flex items-center">
 			<span class="flex-grow">{{ event.title }}</span>
 			{% if event.creator_id == current_user.id %}
 			<button hx-delete="/events/{{ event.id }}/delete" hx-target="#events-grid" onclick="event.stopPropagation()" class="flex justify-center rounded-md bg-red-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Видалити</button>
