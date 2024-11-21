@@ -72,3 +72,34 @@ create_event_form = {
         "label": "Місце події"
     }
 }
+
+register_event_form = {
+    "name": {
+        "id": "name",
+        "name": "name",
+        "type": "text",
+        "autocomplete": "",
+        "label": "Ім'я"
+    },
+    "surname": {
+        "id": "surname",
+        "name": "surname",
+        "type": "text",
+        "autocomplete": "",
+        "label": "Прізвище"
+    },
+    "phone": {
+        "id": "phone",
+        "name": "phone",
+        "type": "tel",
+        "autocomplete": "",
+        "label": "Ваш телефон"
+    },
+    "location": {
+        "id": "location",
+        "name": "location",
+        "type": "text",
+        "autocomplete": "",
+        "label": "Ваша локація"
+    }
+}

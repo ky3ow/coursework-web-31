@@ -5,7 +5,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 from app import login_manager, db
 from app.models import User, Event, Registration
-from app.forms import login_form, register_form, create_event_form
+from app.forms import login_form, register_form, create_event_form, register_event_form
 
 main = Blueprint("main", __name__)
 
@@ -105,7 +105,6 @@ def create_event():
 @login_required
 def delete_event(event_id):
     event = Event.query.get(event_id)
-    print(event)
 
     if not event:
         return "Не знайдено", 404
@@ -131,18 +130,32 @@ def toggle_event_visibility():
     if not is_checked:
         events = Event.query.all()
     else: 
-        events = []
+        events = Event.query.join(Registration).filter(Registration.user_id == current_user.id).all()
 
     return render_template("_event_grid.html", events=events)
 
-@main.route("/events/<int:event_id>", methods=["GET"])
+@main.route("/events/<int:event_id>/register", methods=["GET", "POST"])
 @login_required
 def register_to_event(event_id):
-    is_checked = request.args.get("checked", default=False, type=lambda val: val.lower() == 'true')
+    event = Event.query.get(event_id)
 
-    if not is_checked:
-        events = Event.query.all()
-    else: 
-        events = []
+    if request.method == "POST":
+        try:
+            new_registration = Registration(
+                name=request.form["name"],
+                surname=request.form["surname"],
+                phone=request.form["phone"],
+                location=request.form["location"],
+                user_id=current_user.id,
+                event_id=event.id
+            )
+            db.session.add(new_registration)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            return "Error", 500
 
-    return render_template("_event_grid.html", events=events)
+        return redirect("/events")
+
+
+    return render_template("pages/events_register.html", event=event, fields=register_event_form)

@@ -2,20 +2,36 @@
 {% from '_forms.html' import field %}
 
 {% block content %}
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-  <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Створити подію</h2>
-  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form class="space-y-6" hx-post="/events/create" hx-push-url="true" hx-target="body" hx-target-error="#input-error">
-	  {{ field(fields["title"]) }}
-	  {{ field(fields["description"]) }}
-	  {{ field(fields["date"]) }}
-	  {{ field(fields["location"]) }}
-	  <div>
-		<button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Створити</button>
-	  </div>
-    </form>
-	  <div id="input-error" class="bg-red-500 text-white mt-2 px-2 rounded-md"></div>
+<div class="flex gap-x-8 min-h-full justify-center px-6 py-12 lg:px-8">
+  <div class="shadow-gray-400 shadow-lg p-8 flex flex-col justify-between flex-grow">
+    <h2 class="mt-10 text-center text-3xl/9 font-bold tracking-tight text-gray-900">Подія: {{ event.title }}</h2>
+    <h3 class="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">Опис</h3>
+    <p class="text-2xl">{{event.description }}</p>
+    <div class="flex *:flex-grow">
+      <div class="w-full">
+	<h3 class="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">Коли?</h3>
+	<p class="text-2xl text-center">{{ event.date.date() }}</p>
+      </div>
+      <div class="w-full">
+	<h3 class="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">Де?</h3>
+	<p class="text-2xl text-center">{{ event.location }}</p>
+      </div>
+    </div>
   </div>
+  <div class="flex flex-col flex-grow">
+    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Зареєструватись на подію</h2>
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <form class="space-y-6" hx-post="/events/{{ event.id }}/register" hx-push-url="true" hx-target="body" hx-target-error="#input-error">
+	    {{ field(fields["name"]) }}
+	    {{ field(fields["surname"]) }}
+	    {{ field(fields["phone"]) }}
+	    {{ field(fields["location"]) }}
+	    <div>
+		  <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Створити</button>
+	    </div>
+      </form>
+      <div id="input-error" class="bg-red-500 text-white mt-2 px-2 rounded-md"></div>
+    </div>
   </div>
 </div>
 {% endblock %}

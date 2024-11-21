@@ -8,7 +8,7 @@
 			{% if event.creator_id == current_user.id %}
 			<button hx-delete="/events/{{ event.id }}/delete" hx-target="#events-grid" class="flex justify-center rounded-md bg-red-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Видалити</button>
 			{% else %}
-			<button hx-get="/events/{{ event.id }}" hx-push-url="true" class="flex justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Реєстрація</button>
+			<button hx-get="/events/{{ event.id }}/register" hx-target="body" hx-push-url="true" class="flex justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Реєстрація</button>
 			{% endif %}
 		</div>
 		<div class="flex">
