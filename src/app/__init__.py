@@ -34,8 +34,8 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    migrate = Migrate(app, db)
     with app.app_context():
+        migrate = Migrate(app, db)
         db.create_all()
 
     return app

@@ -1,7 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="bg-blue-400">
-	Hello worldd
+<div class="flex gap-x-4 p-4">
+	<div id="events-grid" class="flex-grow grid grid-cols-4 gap-4 justify-items-center *:w-full">
+		{% include '_event_grid.html' %}
+	</div>
+	<div>
+	{% if current_user.role == 'organization' %}
+		<button hx-get="/events/create" hx-push-url="true" hx-target="body" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Створити подію</button>
+	{% endif %}
+	</div>
 </div>
 {% endblock %}

@@ -41,3 +41,34 @@ register_form = {
         "options": user_roles
     }
 }
+
+create_event_form = {
+    "title": {
+        "id": "title",
+        "name": "title",
+        "type": "text",
+        "autocomplete": "",
+        "label": "Назва події"
+    },
+    "description": {
+        "id": "description",
+        "name": "description",
+        "type": "text",
+        "autocomplete": "",
+        "label": "Деталі події"
+    },
+    "date": {
+        "id": "date",
+        "name": "date",
+        "type": "date",
+        "autocomplete": "",
+        "label": "Дата події"
+    },
+    "location": {
+        "id": "location",
+        "name": "location",
+        "type": "text",
+        "autocomplete": "",
+        "label": "Місце події"
+    }
+}

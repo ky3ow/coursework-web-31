@@ -1,9 +1,11 @@
+from datetime import datetime
+
 from flask import Blueprint, render_template, request, session, redirect, abort
 from flask_login import login_user, login_required, logout_user, current_user
 
 from app import login_manager, db
-from app.models import User
-from app.forms import login_form, register_form
+from app.models import User, Event, Registration
+from app.forms import login_form, register_form, create_event_form
 
 main = Blueprint("main", __name__)
 
@@ -20,7 +22,9 @@ def home():
 @main.route("/events", methods=["GET"])
 @login_required
 def events():
-    return render_template("pages/events.html")
+    events = Event.query.all()
+
+    return render_template("pages/events.html", events=events)
 
 @main.route("/logout", methods=["GET"])
 def logout():
@@ -71,3 +75,49 @@ def register():
 
     return render_template("pages/register.html", fields=register_form)
 
+@main.route("/events/create", methods=["GET", "POST"])
+@login_required
+def create_event():
+    if current_user.role == "volunteer":
+        return redirect("/events")
+
+    if request.method == "POST":
+        try:
+            new_event = Event(
+                title=request.form["title"],
+                description=request.form["description"],
+                date=datetime.strptime(request.form['date'], '%Y-%m-%d'),
+                location=request.form["location"],
+                creator=current_user
+            )
+            db.session.add(new_event)
+            db.session.commit()
+
+        except Exception as e:
+            print(e)
+            return "Помилка", 500
+
+        return redirect("/events")
+
+    return render_template("pages/events_create.html", fields=create_event_form)
+
+@main.route("/events/<int:event_id>/delete", methods=["DELETE"])
+@login_required
+def delete_event(event_id):
+    event = Event.query.get(event_id)
+    print(event)
+
+    if not event:
+        return "Не знайдено", 404
+
+    if current_user.id != event.creator_id:
+        return "Ні", 403
+
+    Registration.query.filter_by(event_id=event_id).delete()
+
+    db.session.delete(event)
+    db.session.commit()
+
+    events = Event.query.all()
+
+    return render_template("_event_grid.html", events=events)
