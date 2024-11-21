@@ -1,4 +1,4 @@
 .venv/
 __pycache__/
-*.sqlite
+!*.sqlite
 src/app/static/tailwind.css
