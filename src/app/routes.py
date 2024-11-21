@@ -5,7 +5,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 from app import login_manager, db
 from app.models import User, Event, Registration
-from app.forms import login_form, register_form, create_event_form, register_event_form
+from app.forms import login_form, register_form, create_event_form, register_event_form, statuses
 
 main = Blueprint("main", __name__)
 
@@ -147,7 +147,8 @@ def register_to_event(event_id):
                 phone=request.form["phone"],
                 location=request.form["location"],
                 user_id=current_user.id,
-                event_id=event.id
+                event_id=event.id,
+                status="pending"
             )
             db.session.add(new_registration)
             db.session.commit()
@@ -159,3 +160,36 @@ def register_to_event(event_id):
 
 
     return render_template("pages/events_register.html", event=event, fields=register_event_form)
+
+@main.route("/events/<int:event_id>/manage", methods=["GET"])
+@login_required
+def manage_event(event_id):
+    event = Event.query.get(event_id)
+    registrations = Registration.query.filter_by(event_id=event_id).all()
+
+    if not event:
+        return "Не знайдено", 404
+
+    if current_user.id != event.creator_id:
+        return "Ні", 403
+
+    return render_template("pages/events_manage.html", event=event, registrations=registrations, statuses=statuses)
+
+@main.route("/registrations/<int:reg_id>/toggle", methods=["PUT"])
+@login_required
+def toggle_registration(reg_id):
+    registration = Registration.query.get(reg_id)
+
+    if registration.status == "pending":
+        new_status = "confirmed"
+    elif registration.status == "confirmed":
+        new_status = "cancelled"
+    else:
+        new_status = "pending"
+
+    registration.status = new_status
+    db.session.commit()
+
+    print(registration.status)
+
+    return render_template("_registration.html", reg=registration, statuses=statuses)

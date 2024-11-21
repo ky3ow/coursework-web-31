@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="flex gap-x-8 min-h-full justify-center px-6 py-12 lg:px-8">
+  <div class="shadow-gray-400 shadow-lg p-8 flex flex-col justify-between flex-grow">
+    <h2 class="mt-10 text-center text-3xl/9 font-bold tracking-tight text-gray-900">Подія: {{ event.title }}</h2>
+    <h3 class="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">Опис</h3>
+    <p class="text-2xl">{{ event.description }}</p>
+    <div class="flex *:flex-grow">
+      <div class="w-full">
+	<h3 class="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">Коли?</h3>
+	<p class="text-2xl text-center">{{ event.date.date() }}</p>
+      </div>
+      <div class="w-full">
+	<h3 class="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">Де?</h3>
+	<p class="text-2xl text-center">{{ event.location }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col flex-grow">
+    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Реєстрації:</h2>
+    <div class="mt-10">
+      <table class="table-auto border-collapse w-full">
+	<thead>
+	  <tr class="bg-gray-200 text-gray-700 *:text-center">
+	    <th class="px-6 py-3 font-medium">Користувач</th>
+	    <th class="px-6 py-3 font-medium">Ім'я</th>
+	    <th class="px-6 py-3 font-medium">Прізвище</th>
+	    <th class="px-6 py-3 font-medium">Телефон</th>
+	    <th class="px-6 py-3 font-medium">Локація</th>
+	    <th class="px-6 py-3 font-medium">Статус</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {% for reg in registrations %}
+	    <tr class="border-t border-gray-200 *:text-center">
+	      <td class="px-6 py-3">{{ reg.user.email }}</td>
+	      <td class="px-6 py-3">{{ reg.name }}</td>
+	      <td class="px-6 py-3">{{ reg.surname }}</td>
+	      <td class="px-6 py-3">{{ reg.phone }}</td>
+	      <td class="px-6 py-3">{{ reg.location }}</td>
+	      <td class="px-6 py-3">
+		{% include '_registration.html' %}
+	      </td>
+	    </tr>
+	  {% endfor %}
+	</tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

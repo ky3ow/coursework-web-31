@@ -103,3 +103,9 @@ register_event_form = {
         "label": "Ваша локація"
     }
 }
+
+statuses = {
+    "pending": "Очікується",
+    "confirmed": "Підтверджено",
+    "cancelled": "Відхилено"
+}
