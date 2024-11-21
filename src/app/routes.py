@@ -53,12 +53,13 @@ def register():
         email = request.form["email"]
         password = request.form["password"]
         password_confirm = request.form["password_confirm"]
+        user_role = request.form["user_role"]
 
         if password != password_confirm:
             return "Паролі мають співпадати", 401
 
         try:
-            new_user = User(email=email, password=password)  # Hash password before saving in production
+            new_user = User(email=email, password=password, role=user_role)  # Hash password before saving in production
             db.session.add(new_user)
             db.session.commit()
 

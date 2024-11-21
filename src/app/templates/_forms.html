@@ -10,7 +10,7 @@
 {% macro select(params) %}
 <div>
 	<label for="{{ params['id'] }}" class="block text-sm/6 font-medium text-gray-900">{{ params['label'] }}</label>
-	<select id="{{ params['id'] }}" class="block w-full rounded-md border-0 px-2 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
+	<select id="{{ params['id'] }}" name="{{ params['name'] }}" class="block w-full rounded-md border-0 px-2 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
 		{% for option, value in params['options'].items() %}
 			<option value="{{ value }}">{{ option }}</option>
 		{% endfor %}
