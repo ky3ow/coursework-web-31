@@ -10,15 +10,15 @@
 		<button hx-get="/events/create" hx-push-url="true" hx-target="body" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Створити подію</button>
 	{% else %}
 		<div id="toggle-personal" class="text-center">
-			<label class="relative inline-flex items-center cursor-pointer">
-			  <input type="checkbox" class="sr-only peer"
+			<label class="relative inline-flex items-center cursor-pointer group">
+			  <input type="checkbox" class="sr-only" id="toggle-personal-checkbox"
 					 hx-get="/events/toggle-personal"
 					 hx-target="#events-grid"
 					 hx-swap="innerHTML"
 				     hx-vals='js:{checked: event.target.checked}'>
-			  <div class="peer flex h-8 items-center gap-4 rounded-full bg-indigo-600 px-4 after:absolute after:left-2 after: after:h-6 after:w-[4.5rem] after:rounded-full after:bg-white/40 after:transition-all after:content-[''] peer-checked:bg-green-600 peer-checked:after:translate-x-[4.5rem] peer-focus:outline-none text-sm text-white select-none">
-				 <span>Всі події</span>
-				 <span>Ваші події</span>
+			  <div class="flex h-8 items-center gap-4 rounded-full bg-indigo-600 px-4 group-has-[#toggle-personal-checkbox:checked]:bg-green-600 group-has-[#toggle-personal-checkbox:checked]-focus:outline-none text-sm text-white select-none min-w-16 justify-center">
+				 <span class="group-has-[#toggle-personal-checkbox:checked]:hidden inline">Всі</span>
+				 <span class="group-has-[#toggle-personal-checkbox:checked]:inline hidden">Ваші</span>
 			  </div>
 			</label>
 	    </div>
