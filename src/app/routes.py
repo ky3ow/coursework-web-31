@@ -190,10 +190,15 @@ def manage_event(event_id):
 
     return render_template("pages/events_manage.html", event=event, registrations=registrations, statuses=statuses)
 
-@main.route("/registrations/<int:reg_id>/toggle", methods=["PUT"])
+@main.route("/registrations/toggle", methods=["PUT"])
 @login_required
-def toggle_registration(reg_id):
-    registration = Registration.query.get(reg_id)
+def toggle_registration():
+    event_id = request.args.get("event_id", type=int)
+    user_id = request.args.get("user_id", type=int)
+    registration = Registration.query.get({
+        "event_id": event_id,
+        "user_id": user_id,
+    })
 
     if registration.status == "pending":
         new_status = "confirmed"

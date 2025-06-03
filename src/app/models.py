@@ -24,7 +24,9 @@ class Event(db.Model):
     registrations = db.relationship('Registration', back_populates='event', lazy='dynamic')
 
 class Registration(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), primary_key=True)
+
     name = db.Column(db.String(50), nullable=False)
     surname = db.Column(db.String(50), nullable=False)
     location = db.Column(db.String(100), nullable=False)
@@ -32,13 +34,6 @@ class Registration(db.Model):
 
     status = db.Column(db.String(20), default="pending")
     
-    # Foreign keys
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
-    
     # Relationships
     user = db.relationship('User', back_populates='event_registrations')
     event = db.relationship('Event', back_populates='registrations')
-    
-    # Unique constraint to prevent duplicate registrations
-    __table_args__ = (db.UniqueConstraint('user_id', 'event_id', name='_user_event_uc'),)
