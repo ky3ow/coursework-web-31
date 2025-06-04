@@ -23,15 +23,8 @@ def home():
 @login_required
 def events():
     events = Event.query.all()
-    registrations = {
-        event.id: next(
-            (reg.status for reg in event.registrations if reg.user_id == current_user.id),
-            "unregistered"
-        )
-        for event in events
-    }
 
-    return render_template("pages/events.html", events=events, registrations=registrations)
+    return render_template("pages/events.html", events=events, current_user=current_user)
 
 @main.route("/logout", methods=["GET"])
 def logout():
@@ -140,7 +133,7 @@ def delete_event(event_id):
 
     events = Event.query.all()
 
-    return render_template("_event_grid.html", events=events)
+    return render_template("_event_grid.html", events=events, current_user=current_user)
 
 
 @main.route("/events/toggle-personal", methods=["GET"])
@@ -153,15 +146,7 @@ def toggle_event_visibility():
     else: 
         events = Event.query.join(Registration).filter(Registration.user_id == current_user.id).all()
 
-    registrations = {
-        event.id: next(
-            (reg.status for reg in event.registrations if reg.user_id == current_user.id),
-            "unregistered"
-        )
-        for event in events
-    }
-
-    return render_template("_event_grid.html", events=events, registrations=registrations)
+    return render_template("_event_grid.html", events=events, current_user=current_user)
 
 @main.route("/events/<int:event_id>/register", methods=["GET", "POST"])
 @login_required
@@ -195,7 +180,6 @@ def register_to_event(event_id):
 @login_required
 def manage_event(event_id):
     event = Event.query.get(event_id)
-    registrations = Registration.query.filter_by(event_id=event_id).all()
 
     if not event:
         return "Не знайдено", 404
@@ -203,7 +187,7 @@ def manage_event(event_id):
     if current_user.id != event.creator_id:
         return "Ні", 403
 
-    return render_template("pages/events_manage.html", event=event, registrations=registrations, statuses=statuses)
+    return render_template("pages/events_manage.html", event=event, statuses=statuses)
 
 @main.route("/registrations/toggle", methods=["PUT"])
 @login_required
