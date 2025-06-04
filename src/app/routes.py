@@ -189,6 +189,19 @@ def manage_event(event_id):
 
     return render_template("pages/events_manage.html", event=event, statuses=statuses)
 
+@main.route("/events/search", methods=["GET"])
+@login_required
+def search_events():
+    category = request.args.get("category")
+    if not category:
+        events = Event.query.all()
+    else:
+        events = Event.query.filter(
+            Event.categories.any(Category.name == category)
+        ).all()
+
+    return render_template("_event_grid.html", events=events, current_user=current_user)
+
 @main.route("/registrations/toggle", methods=["PUT"])
 @login_required
 def toggle_registration():
