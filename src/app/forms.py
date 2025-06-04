@@ -70,7 +70,14 @@ create_event_form = {
         "type": "text",
         "autocomplete": "",
         "label": "Місце події"
-    }
+    },
+    "categories": {
+        "id": "categories",
+        "name": "categories",
+        "type": "text",
+        "autocomplete": "",
+        "label": "#Категорії"
+    },
 }
 
 register_event_form = {

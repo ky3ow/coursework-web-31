@@ -2,6 +2,8 @@
 <button disabled class="flex justify-center rounded-md {{ color }} px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:{{ color }} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">{{ text }}</button>
 {% endmacro %}
 
+{% from '_forms.html' import pill %}
+
 {% for event in events %}
 {% if current_user.role == 'organization' and event.creator_id != current_user.id %}
 {% else %}
@@ -14,7 +16,7 @@
 			{% else %}
 				{% set status = registrations[event.id] %}
 				{% if status == "unregistered" %}
-				<button hx-get="/events/{{ event.id }}/register" hx-target="body" hx-push-url="true" onclick="event.stopPropagation" class="flex justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Реєстрація</button>
+				<button hx-get="/events/{{ event.id }}/register" hx-target="body" hx-push-url="true" onclick="event.stopPropagation()" class="flex justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Реєстрація</button>
 				{% elif status == "cancelled" %}
 				{{ indicator_button("bg-red-600", "Відхилено") }}
 				{% elif status == "confirmed" %}
@@ -33,11 +35,17 @@
 					Дата: {{ event.date.date() }}
 				</p>
 				<p class="text-gray-700 text-base">
-					Локція: {{ event.location }}
+					Локaція: {{ event.location }}
 				</p>
 				<p class="text-gray-700 text-base">
 					Від: {{ event.creator.email }}
 				</p>
+				<p class="text-gray-700 text-base">
+				{% for category in event.categories %}
+				{{ pill(category.name) }}
+				{% endfor %}
+				</p>
+				
 			</div>
 		</div>
 	</div>

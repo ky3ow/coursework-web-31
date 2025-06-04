@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, request, session, redirect, abort
 from flask_login import login_user, login_required, logout_user, current_user
 
 from app import login_manager, db
-from app.models import User, Event, Registration
+from app.models import User, Event, Registration, Category
 from app.forms import login_form, register_form, create_event_form, register_event_form, statuses
 
 main = Blueprint("main", __name__)
@@ -53,6 +53,7 @@ def login():
             return "Неправильні дані", 401
 
         except Exception as e:
+            db.session.rollback()
             print(e)
             return "Помилка", 500
 
@@ -75,6 +76,7 @@ def register():
             db.session.commit()
 
         except Exception as e:
+            db.session.rollback()
             print(e)
             return "Помилка", 500
 
@@ -98,9 +100,21 @@ def create_event():
                 creator=current_user
             )
             db.session.add(new_event)
+
+            categories = [name.strip().lower() for name in request.form["categories"].split(",") if name.strip()]
+            for name in categories:
+                category = Category.query.filter_by(name=name).first()
+
+                if category is None:
+                    category = Category(name=name)
+                    db.session.add(category)
+
+                new_event.categories.append(category)
+
             db.session.commit()
 
         except Exception as e:
+            db.session.rollback()
             print(e)
             return "Помилка", 500
 
@@ -168,6 +182,7 @@ def register_to_event(event_id):
             db.session.add(new_registration)
             db.session.commit()
         except Exception as e:
+            db.session.rollback()
             print(e)
             return "Error", 500
 
